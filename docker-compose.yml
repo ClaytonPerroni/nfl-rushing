@@ -1,0 +1,74 @@
+version: "3.7"
+
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: ../.docker/python.dockerfile
+    container_name: thescore-backend
+    working_dir: /app
+    environment:
+      - DB_LOCAL_CONN=postgresql://postgres:postgres@thescoredb:5432/thescore
+      - 10000_ROWS=yes
+    ports:
+      - 2001:8000
+    volumes:
+      - ./backend:/app
+    command: >
+      sh -c "
+        # wait for DB
+        sleep 3
+
+        # start the server
+        alembic upgrade head
+        uvicorn main:app --reload --host 0.0.0.0
+      "
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: ../.docker/node.dockerfile
+    container_name: thescore-frontend
+    environment:
+      - SKIP_PREFLIGHT_CHECK=true
+      - CHOKIDAR_USEPOLLING=true
+    working_dir: /app
+    stdin_open: true
+    command: >
+      sh -c "npx npm install && npx npm start"
+    ports:
+      - '3000:3000'
+    volumes:
+      - ./frontend/src:/app/src
+      - ./frontend/package.json:/app/package.json
+      - ./frontend/public:/app/public
+      - ./frontend/.eslintrc:/app/.eslintrc
+      - ./frontend/.eslintignore:/app/.eslintignore
+      - ./frontend/.babelrc:/app/.babelrc
+      - ./frontend/jsconfig.json:/app/jsconfig.json
+      - ./frontend/.prettierrc:/app/.prettierrc
+
+  thescoredb:
+    image: postgres:12-alpine
+    container_name: thescoredb
+    environment:
+      - POSTGRES_DB=thescore
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - PGUSER=postgres
+    ports:
+      - 2002:5432
+
+  pgadmin:
+    depends_on:
+      - thescoredb
+    image: dpage/pgadmin4
+    container_name: thescore-db-admin
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=pgadmin4@pgadmin.org
+      - PGADMIN_DEFAULT_PASSWORD=admin
+    logging:
+      driver: none
+    ports:
+      - 2003:80
+    volumes:
+      - ./backend/local_config/pgadmin/:/var/lib/pgadmin/

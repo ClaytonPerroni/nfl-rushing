@@ -1,0 +1,65 @@
+{
+  "extends": ["airbnb", "airbnb/hooks", "prettier"],
+  "plugins": ["react-hooks"],
+  "settings": {
+    "import/resolver": {
+      "node": {
+        "moduleDirectory": ["src/", "node_modules"]
+      },
+      "alias": {
+        "map": [
+          ["common", "./src/common/"],
+          ["styledComponents", "./src/styledComponents/"],
+          ["styledComponents", "./src/styledComponents/"],
+          ["features", "./src/features/"],
+          ["app", "./src/app/"],
+          ["pages", "./src/pages/"],
+          ["testUtils", "./src/testUtils/"]
+        ],
+        "extensions": [".js"]
+      }
+    }
+  },
+  "env": {
+    "jest": true
+  },
+  "globals": {
+    "document": true,
+    "window": true,
+    "navigator": true,
+    "Blob": true,
+    "FileReader": true,
+    "fetch": true,
+    "atob": true,
+    "Math": true,
+    "localStorage": true
+  },
+  "parser": "@babel/eslint-parser",
+  "rules": {
+    "comma-dangle": [
+      "error",
+      {
+        "arrays": "always-multiline",
+        "objects": "always-multiline",
+        "imports": "always-multiline",
+        "exports": "always-multiline",
+        "functions": "never"
+      }
+    ],
+    "react/jsx-filename-extension": ["error", { "extensions": [".js"] }],
+    "jsx-a11y/anchor-is-valid": [
+      "error",
+      {
+        "components": ["Link", "NavLink"],
+        "specialLink": ["hrefLeft", "hrefRight", "to"],
+        "aspects": ["noHref", "invalidHref", "preferButton"]
+      }
+    ],
+    "import/no-extraneous-dependencies": [
+      "error", 
+      {
+        "devDependencies": false
+      }
+    ]
+  }
+}
