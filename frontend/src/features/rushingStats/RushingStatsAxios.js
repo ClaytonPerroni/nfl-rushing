@@ -3,7 +3,13 @@ import axios from 'axios';
 
 const BASE_SEARCH_URL = 'http://localhost:2001/rushing-stats/';
 
-export const handleSearchCall = async ({ page, sortBy, sortOrder, query }) => {
+export const handleSearchCall = async ({
+  page,
+  pageSize,
+  sortBy,
+  sortOrder,
+  query,
+}) => {
   const getQueryParams = () => {
     const obj = {};
     if (sortBy) obj.order_by = sortBy;
@@ -16,7 +22,7 @@ export const handleSearchCall = async ({ page, sortBy, sortOrder, query }) => {
     const response = await axios.get(BASE_SEARCH_URL, {
       params: {
         page: page,
-        page_size: 10,
+        page_size: pageSize,
         ...getQueryParams(),
       },
     });

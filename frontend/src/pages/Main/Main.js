@@ -28,12 +28,14 @@ const Main = () => {
   const [sort, setSort] = useState({ sortBy: 'yds', sortOrder: 'desc' });
   const [page, setPage] = useState(1);
   const [query, setQuery] = useState('');
+  const [pageSize, setPageSize] = useState('10');
   const searchInterval = useRef();
 
   useEffect(() => {
     const getResults = async ({ pageNumber, sortBy, sortOrder }) => {
       const res = await handleSearchCall({
         page: pageNumber,
+        pageSize,
         sortBy,
         sortOrder,
         query,
@@ -47,7 +49,7 @@ const Main = () => {
       sortOrder: sort?.sortOrder,
       query,
     });
-  }, [setResults, sort, page, query]);
+  }, [setResults, sort, page, query, pageSize]);
 
   const handlePageChange = async ev => {
     const { selected } = ev;
@@ -104,6 +106,22 @@ const Main = () => {
             >
               Download
             </DownloadButton>
+          </Col>
+        </Row>
+        <Row style={{ marginTop: 15 }}>
+          <Col style={{ display: 'flex' }}>
+            <p style={{ paddingRight: 15 }}>Results per page</p>
+            <select
+              onChange={e => {
+                const val = e.target.value;
+                setPageSize(val.length > 0 ? val : undefined);
+              }}
+            >
+              <option value="10">10</option>
+              <option value="25">25</option>
+              <option value="100">100</option>
+              <option value="15000">15K</option>
+            </select>
           </Col>
         </Row>
       </div>

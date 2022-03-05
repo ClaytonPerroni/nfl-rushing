@@ -61,3 +61,4 @@ If you have any questions regarding requirements, do not hesitate to email your 
 5. There is a convenient download button on the frontend for a csv file, this can also be downloaded by visiting the http://localhost:2001/rushing-stats/csv endpoint (which takes the same parameters as the regular endpoint)
 6. clicking on the headers on the frontend table will allow you to sort by the requirements defined fields.
 7. Lng is sorted by number of yards since the sorting algorithm wasn't defined.
+8. There is pagination on the frontend but a results per page select will let you display all records by selecting the 15K option. (db prepopulation stores 10,3XX records)
