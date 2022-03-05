@@ -54,4 +54,10 @@ We will evaluate you on your ability to solve the problem defined in the require
 If you have any questions regarding requirements, do not hesitate to email your contact at theScore for clarification.
 
 ### Installation and running this solution
-... TODO
+1. from a terminal run `docker-compose up` it will take a minute to build the images
+2. in the docker compose file there is an environment variable flag called `10K_ROWS` on the backend service. When uncommented will trigger 10K additional fake data rows to be inserted into the database.
+3. frontend located at http://localhost:3000, backend OpenAPI at http://localhost:2001 and a pgadmin instance at http://localhost:2003 (credentials in the docker-compose yml)
+4. The frontend uses pagination to return the results for better performance. Currently hardcoded at 10 results per page. But the api is built to take a page_size parameter.
+5. There is a convenient download button on the frontend for a csv file, this can also be downloaded by visiting the http://localhost:2001/rushing-stats/csv endpoint (which takes the same parameters as the regular endpoint)
+6. clicking on the headers on the frontend table will allow you to sort by the requirements defined fields.
+7. Lng is sorted by number of yards since the sorting algorithm wasn't defined.
