@@ -1,4 +1,4 @@
-# theScore "the Rush" Interview Challenge
+# theScore "the Rush" Challenge
 At theScore, we are always looking for intelligent, resourceful, full-stack developers to join our growing team. To help us evaluate new talent, we have created this take-home interview question. This question should take you no more than a few hours.
 
 **All candidates must complete this before the possibility of an in-person interview. During the in-person interview, your submitted project will be used as the base for further extensions.**

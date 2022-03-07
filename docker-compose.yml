@@ -9,6 +9,7 @@ services:
     working_dir: /app
     environment:
       - DB_LOCAL_CONN=postgresql://postgres:postgres@thescoredb:5432/thescore
+      - PYTHONPATH=/app/
       # - 10K_ROWS=yes
     ports:
       - 2001:8000

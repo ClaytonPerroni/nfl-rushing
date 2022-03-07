@@ -8,7 +8,7 @@ import math
 from sqlalchemy.orm import Session
 from sqlalchemy import Integer, desc, cast, func
 from .database import getDb
-from .dbmodels import RushingStats
+from .dbmodels import Player, Position, RushingStats, Team
 
 router = APIRouter(
     prefix='/rushing-stats',
@@ -24,9 +24,8 @@ async def get_players(
     order_direction: SortingDirectionEnum = SortingDirectionEnum.desc, 
     db: Session = Depends(getDb)
   ):
-  query_table = RushingStats
 
-  q = filter_and_sort(query_table, query, order_by, order_direction, db)
+  q = filter_and_sort(query, order_by, order_direction, db)
 
   count = q.count()
   # pagination
@@ -52,9 +51,8 @@ async def get_players(
     order_direction: SortingDirectionEnum = SortingDirectionEnum.desc, 
     db: Session = Depends(getDb)
   ):
-  query_table = RushingStats
 
-  q = filter_and_sort(query_table, query, order_by, order_direction, db)
+  q = filter_and_sort(query, order_by, order_direction, db)
   
   csvfile = create_rushing_stats_csvfile(q)
 
@@ -96,8 +94,30 @@ def create_rushing_stats_csvfile(q):
   csvfile.seek(0)
   return csvfile
 
-def filter_and_sort(query_table, search_string, order_by, order_direction, db: Session):
-  q = db.query(query_table)
+def filter_and_sort(search_string, order_by, order_direction, db: Session):
+  q = db.query(
+    RushingStats.att,
+    RushingStats.att_g,
+    RushingStats.yds,
+    RushingStats.avg,
+    RushingStats.yds_g,
+    RushingStats.td,
+    RushingStats.lng,
+    RushingStats.first,
+    RushingStats.first_percent,
+    RushingStats.twenty_plus,
+    RushingStats.forty_plus,
+    RushingStats.fum,
+    Player.player, 
+    Team.short_name.label('team'), 
+    Position.short_name.label('pos')) \
+    .join(
+      Player, RushingStats.player_id==Player.id) \
+    .join(
+      Team, Player.team_id==Team.short_name) \
+    .join(
+      Position, Player.position_id==Position.short_name
+  )
   # player name query
   if search_string:
     q = player_name_search_query(q, search_string)
@@ -113,7 +133,7 @@ def filter_and_sort(query_table, search_string, order_by, order_direction, db: S
 
 
 def player_name_search_query(query_string, search_text):
-  return query_string.filter(RushingStats.player.ilike('%' + str(search_text) + '%'))
+  return query_string.filter(Player.player.ilike('%' + str(search_text) + '%'))
 
 def sort_query_by_lng(query_string, sort_field, order):
     if order == SortingDirectionEnum.asc:

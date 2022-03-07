@@ -1,3 +1,3 @@
 import Main from './Main/Main';
-
-export { Main };
+import RushingStatsPage from './RushingStats/RushingStatsPage';
+export { Main, RushingStatsPage };
