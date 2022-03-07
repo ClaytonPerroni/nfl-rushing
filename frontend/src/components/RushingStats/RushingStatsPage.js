@@ -1,6 +1,4 @@
-/* eslint-disable react/function-component-definition */
 import { RushingStatsTable } from 'components/RushingStatsTable';
-// import { debounce } from 'features/debounce';
 import { handleSearchCall } from 'features/rushingStats';
 import { handleCSVCall } from 'features/rushingStats/RushingStatsAxios';
 import React, { useEffect, useState, useRef } from 'react';
@@ -23,7 +21,7 @@ const DownloadButton = styled.button`
   float: right;
 `;
 
-const RushingStatsPage = () => {
+function RushingStatsPage() {
   const [results, setResults] = useState([]);
   const [sort, setSort] = useState({ sortBy: 'yds', sortOrder: 'desc' });
   const [page, setPage] = useState(1);
@@ -58,10 +56,15 @@ const RushingStatsPage = () => {
   return (
     <div>
       <div style={{ padding: 25 }}>
+        <Row style={{ marginTop: 5, marginBottom: 15 }}>
+          <Col>
+            <h1>Rushing Stats</h1>
+          </Col>
+        </Row>
+
         <Row style={{ marginTop: 5 }}>
           <Col>
             <SearchInput
-              // value={query}
               onChange={e => {
                 const val = e.target.value;
                 // wait for typing to stop to send query
@@ -143,6 +146,6 @@ const RushingStatsPage = () => {
       </div>
     </div>
   );
-};
+}
 
 export default RushingStatsPage;

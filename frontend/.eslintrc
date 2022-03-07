@@ -4,7 +4,7 @@
   "settings": {
     "import/resolver": {
       "node": {
-        "moduleDirectory": ["src/", "node_modules"]
+        "moduleDirectory": ["./src/", "node_modules"]
       },
       "alias": {
         "map": [
@@ -13,7 +13,7 @@
           ["styledComponents", "./src/styledComponents/"],
           ["features", "./src/features/"],
           ["app", "./src/app/"],
-          ["pages", "./src/pages/"],
+          ["pages", "./src/pages/"],  
           ["testUtils", "./src/testUtils/"]
         ],
         "extensions": [".js"]
@@ -60,6 +60,7 @@
       {
         "devDependencies": false
       }
-    ]
+    ],
+    "import/no-cycle": ["error", { "maxDepth": "Infinity" }]
   }
 }
