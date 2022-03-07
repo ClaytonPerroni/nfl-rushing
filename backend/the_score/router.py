@@ -7,7 +7,7 @@ from fastapi.responses import PlainTextResponse, StreamingResponse
 import math
 from sqlalchemy.orm import Session
 from sqlalchemy import Integer, desc, cast, func
-from .database import getDb
+from database import getDb
 from .dbmodels import Player, Position, RushingStats, Team
 
 router = APIRouter(
