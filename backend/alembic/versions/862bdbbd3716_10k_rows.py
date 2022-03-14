@@ -42,6 +42,6 @@ def upgrade():
 def downgrade():
   if not os.getenv('10K_ROWS'):
     for player in generated:
-      command = 'delete from rushing_stats where player=\'{}\' and  team=\'{}\' and pos=\'{}\''.format(str(player['player']).replace("'","''"), player['team'], player['pos'])
+      command = 'delete from rushing_stats where player_id=(select id from player where player = \'{}\' limit 1)'.format(str(player['player']).replace("'","''"))
       op.execute(command)
 

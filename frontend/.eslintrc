@@ -61,6 +61,6 @@
         "devDependencies": false
       }
     ],
-    "import/no-cycle": ["error", { "maxDepth": "Infinity" }]
+    "import/no-cycle": ["error", { "maxDepth": "∞" }]
   }
 }
